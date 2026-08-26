@@ -1,0 +1,14 @@
+    <header class="navbar">
+      <div class="container">
+        <%= link_to root_path do %>
+          <%= image_tag "home-image.svg", alt: "Home logo", width: 50 %>
+        <% end %>
+        <nav>
+          <ul class="nav">
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Help", static_pages_help_path %></li>
+            <li><%= link_to "Log in", "#" %></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
