@@ -1,15 +1,48 @@
-    <header class="navbar">
-      <div class="container">
-        <%= link_to root_path do %>
-          <%= image_tag "home-image.svg", alt: "Home logo", width: 50 %>
-        <% end %>
-        <nav>
-          <ul class="nav">
-            <li><%= link_to "Home", root_path %></li>
-            <li><%= link_to "Help", help_path %></li>
-            <li><%= link_to "Log in", "#" %></li>
-          </ul>
-        </nav>
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Main navigation">
+    <div class="container">
+      <%= link_to root_path, class: "navbar-brand d-flex align-items-center gap-2" do %>
+        <%= image_tag "home-image.svg", alt: "", width: 40, height: 40 %>
+        <span>Sample App</span>
+      <% end %>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#mainNavbar" aria-controls="mainNavbar"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+          <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link" %></li>
+          <li class="nav-item"><%= link_to "Help", help_path, class: "nav-link" %></li>
+          <% if logged_in? %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"
+                 href="#"
+                 role="button"
+                 data-bs-toggle="dropdown"
+                 aria-expanded="false">
+                Account
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <%= link_to "Profile", current_user, class: "dropdown-item" %>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <%= button_to "Log out", logout_path,
+                                method: :delete,
+                                class: "dropdown-item text-danger" %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li class="nav-item"><%= link_to "Log in", login_path, class: "nav-link" %></li>
+          <% end %>
+        </ul>
       </div>
-    </header>
-    
+    </div>
+  </nav>
+</header>

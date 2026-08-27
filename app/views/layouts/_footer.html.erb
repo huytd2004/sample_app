@@ -1,12 +1,12 @@
-<footer class="footer">
-  <small>
-    Ruby on Rails Tutorial Sample App
-  </small>
+<footer class="container border-top py-4 text-body-secondary">
+  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+    <small>Ruby on Rails Tutorial Sample App</small>
 
-  <nav>
-    <ul>
-      <li><%= link_to "About", about_path %></li>
-      <li><%= link_to "Contact", contact_path %></li>
-    </ul>
-  </nav>
+    <nav aria-label="Footer navigation">
+      <ul class="nav">
+        <li class="nav-item"><%= link_to "About", about_path, class: "nav-link px-2 text-body-secondary" %></li>
+        <li class="nav-item"><%= link_to "Contact", contact_path, class: "nav-link px-2 text-body-secondary" %></li>
+      </ul>
+    </nav>
+  </div>
 </footer>
