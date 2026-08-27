@@ -31,3 +31,4 @@ en:
   hello: "Hello world"
   app:
     title: "Ruby on Rails Tutorial Sample App"
+    welcome: "Welcome to the Sample App!"
