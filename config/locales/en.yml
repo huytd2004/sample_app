@@ -32,4 +32,12 @@ en:
   app:
     title: "Ruby on Rails Tutorial Sample App"
     welcome: "Welcome to the Sample App!"
-    danger: "Invalid email/password combination"
+    auth: 
+      danger: "Invalid email/password combination"
+    user:
+      danger: "User not found"
+    login:
+      danger: "Please log in."
+    success: "Profile updated"
+    destroy:
+      success: "User deleted"

@@ -9,9 +9,9 @@ class SessionsController < ApplicationController
       reset_session
       log_in user
       params[:session][:remember_me] == "1" ? remember(user) : forget(user)
-      redirect_to user
+      redirect_back_or user
     else
-      flash.now[:danger] = t("app.danger")
+      flash.now[:danger] = t("app.auth.danger")
       render :new, status: :unprocessable_entity
     end
   end

@@ -1,6 +1,6 @@
-<% provide(:title, "Sign up") %>
+<% provide(:title, "Edit user") %>
 
-<h1 class="text-center mb-4">Sign up</h1>
+<h1 class="text-center mb-4">Update your profile</h1>
 
 <div class="row justify-content-center">
   <div class="col-md-6 col-lg-5">
@@ -24,10 +24,12 @@
 
       <div class="mb-3">
         <%= f.label :password_confirmation, "Confirmation", class: "form-label" %>
-        <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+        <%= f.password_field :password_confirmation,
+                             class: "form-control",
+                             autocomplete: "new-password" %>
       </div>
 
-      <%= f.submit "Create my account", class: "btn btn-primary w-100" %>
+      <%= f.submit "Save changes", class: "btn btn-primary w-100" %>
     <% end %>
   </div>
 </div>
