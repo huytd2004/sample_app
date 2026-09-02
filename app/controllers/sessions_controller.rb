@@ -6,12 +6,18 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
 
     if user&.authenticate(params[:session][:password])
-      reset_session
-      log_in user
-      params[:session][:remember_me] == "1" ? remember(user) : forget(user)
-      redirect_back_or user
+      if user.activated?
+        forwarding_url = session[:forwarding_url]
+        reset_session
+        params[:session][:remember_me] == "1" ? remember(user) : forget(user)
+        log_in user
+        redirect_to forwarding_url || user
+      else
+        flash[:warning] = I18n.t("app.auth.warning")
+        redirect_to root_url
+      end
     else
-      flash.now[:danger] = t("app.auth.danger")
+      flash.now[:danger] = I18n.t("app.auth.danger")
       render :new, status: :unprocessable_entity
     end
   end

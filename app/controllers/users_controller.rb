@@ -21,13 +21,14 @@ before_action :admin_user, only: :destroy
 
   def create
     @user = User.new(user_params)
-      if @user.save
-        log_in @user
-        flash[:success] = t("app.welcome")
-        redirect_to @user
-      else
-        render :new, status: :unprocessable_entity
-      end
+
+    if @user.save
+      @user.send_activation_email
+      flash[:info] = I18n.t("user_mailer.account_activation.deliver")
+      redirect_to root_url
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit

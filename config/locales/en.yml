@@ -34,6 +34,7 @@ en:
     welcome: "Welcome to the Sample App!"
     auth: 
       danger: "Invalid email/password combination"
+      warning: "Account not activated. Check your email for the activation link."
     user:
       danger: "User not found"
     login:
@@ -41,3 +42,8 @@ en:
     success: "Profile updated"
     destroy:
       success: "User deleted"
+  
+  user_mailer:
+    account_activation:
+      subject: "Account activation"
+      deliver: "Please check your email to activate your account."
