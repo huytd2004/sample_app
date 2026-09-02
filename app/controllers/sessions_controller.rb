@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
     if user&.authenticate(params[:session][:password])
       reset_session
       log_in user
+      params[:session][:remember_me] == "1" ? remember(user) : forget(user)
       redirect_to user
     else
       flash.now[:danger] = t("app.danger")

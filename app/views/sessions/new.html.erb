@@ -15,6 +15,13 @@
         <%= f.password_field :password, class: "form-control", autocomplete: "current-password" %>
       </div>
 
+      <div class="form-check mb-3">
+        <%= f.check_box :remember_me, class: "form-check-input" %>
+        <%= f.label :remember_me,
+                    "Remember me on this computer",
+                    class: "form-check-label" %>
+      </div>
+
       <%= f.submit "Log in", class: "btn btn-primary w-100" %>
     <% end %>
 
