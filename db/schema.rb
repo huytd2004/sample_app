@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_03_073239) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_03_083321) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -47,6 +47,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_073239) do
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
 
+  create_table "relationships", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "followed_id", null: false
+    t.integer "follower_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "activated", default: false, null: false
     t.datetime "activated_at"
@@ -66,4 +76,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_03_073239) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "microposts", "users"
+  add_foreign_key "relationships", "users", column: "followed_id"
+  add_foreign_key "relationships", "users", column: "follower_id"
 end
