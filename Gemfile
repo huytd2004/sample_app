@@ -70,3 +70,6 @@ group :development, :test do
 end
 
 gem "will_paginate"
+
+gem "active_storage_validations"
+gem "ruby-vips"

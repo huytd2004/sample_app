@@ -1,11 +1,31 @@
 <% provide(:title, "Home") %>
-<div class="p-5 text-center bg-body-tertiary rounded-3">
-  <h1 class="display-5 fw-bold">Welcome to the Sample App</h1>
 
-  <p class="lead col-lg-8 mx-auto">
-    This is the home page for the
-    Ruby on Rails Tutorial sample application.
-  </p>
+<% if logged_in? %>
+  <div class="row g-4">
+    <aside class="col-md-4">
+      <section class="user_info card border-0 shadow-sm mb-4">
+        <%= render "shared/user_info" %>
+      </section>
 
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-primary btn-lg mt-3" %>
-</div>
+      <section class="micropost_form card border-0 shadow-sm">
+        <%= render "shared/micropost_form" %>
+      </section>
+    </aside>
+
+    <div class="col-md-8">
+      <h3 class="mb-3">Micropost Feed</h3>
+      <%= render "shared/feed" %>
+    </div>
+  </div>
+<% else %>
+  <div class="p-5 text-center bg-body-tertiary rounded-3">
+    <h1 class="display-5 fw-bold">Welcome to the Sample App</h1>
+
+    <p class="lead col-lg-8 mx-auto">
+      This is the home page for the
+      Ruby on Rails Tutorial sample application.
+    </p>
+
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-primary btn-lg mt-3" %>
+  </div>
+<% end %>

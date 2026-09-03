@@ -49,6 +49,9 @@ en:
       expired: "Password reset has expired."
       password_empty: "can't be empty"
       success: "Password has been reset."
+    micropost:
+      created: "Micropost created!"
+      deleted: "Micropost deleted"
 
   user_mailer:
     account_activation:

@@ -10,3 +10,15 @@
     </section>
   </aside>
 </div>
+
+<% if @user.microposts.any? %>
+  <h3 class="mt-4 mb-3">
+    Microposts (<%= @user.microposts.count %>)
+  </h3>
+
+  <ol class="microposts list-group list-group-flush mb-4">
+    <%= render @microposts %>
+  </ol>
+
+  <%= will_paginate @microposts %>
+<% end %>

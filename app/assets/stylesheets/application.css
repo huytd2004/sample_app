@@ -1,1 +1,34 @@
-/* Add project-specific styles here. Layout and components use Bootstrap 5 utilities. */
+/* Bootstrap handles layout, spacing, cards, forms, and list-group styling. */
+.microposts {
+  list-style: none;
+  padding-left: 0;
+}
+
+.content {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.timestamp {
+  font-size: 0.875rem;
+}
+
+.user_info,
+.micropost_form {
+  overflow: hidden;
+}
+
+.user_info .gravatar {
+  border-radius: 50%;
+}
+
+.micropost_form textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
