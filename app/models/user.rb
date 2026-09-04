@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
+  has_many :microposts, dependent: :destroy
 
   before_create :create_activation_digest
   before_save { self.email = email.downcase }
@@ -66,6 +67,10 @@ class User < ApplicationRecord
 
   def self.new_token
     SecureRandom.urlsafe_base64
+  end
+
+  def feed
+    Micropost.where(user_id: id)
   end
 
   private

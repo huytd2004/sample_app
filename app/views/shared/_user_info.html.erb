@@ -1,0 +1,17 @@
+<div class="card-body d-flex align-items-center gap-3">
+  <%= link_to gravatar_for(current_user, size: 50), current_user,
+              class: "flex-shrink-0" %>
+
+  <div>
+    <h1 class="h5 mb-1"><%= current_user.name %></h1>
+
+    <div>
+      <%= link_to "view my profile", current_user,
+                  class: "link-primary text-decoration-none" %>
+    </div>
+
+    <div class="small text-body-secondary mt-1">
+      <%= pluralize(current_user.microposts.count, "micropost") %>
+    </div>
+  </div>
+</div>

@@ -6,4 +6,12 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   include SessionsHelper
+
+  private def logged_in_user
+    unless logged_in?
+      store_location
+      flash[:danger] = t("app.user.login_required")
+      redirect_to login_url
+    end
+  end
 end

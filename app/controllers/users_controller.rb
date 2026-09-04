@@ -17,6 +17,7 @@ before_action :admin_user, only: :destroy
       flash[:danger] = t("app.user.not_found")
       redirect_to root_path
     end
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def create
@@ -63,13 +64,13 @@ before_action :admin_user, only: :destroy
     )
   end
 
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = t("app.user.login_required")
-      redirect_to login_url
-    end
-  end
+  # def logged_in_user
+  #   unless logged_in?
+  #     store_location
+  #     flash[:danger] = t("app.user.login_required")
+  #     redirect_to login_url
+  #   end
+  # end
 
   def correct_user
     @user = User.find(params[:id])
