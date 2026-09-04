@@ -3,22 +3,25 @@ class Micropost < ApplicationRecord
 
   has_one_attached :image do |attachable|
     attachable.variant :display,
-                       resize_to_limit: [ 500, 500 ]
+                       resize_to_limit: [
+                          Settings.micropost.image.width,
+                          Settings.micropost.image.height
+                        ]
   end
 
-  default_scope -> { order(created_at: :desc) }
+  scope :recent, -> { order(created_at: :desc) }
 
   validates :content,
             presence: true,
-            length: { maximum: 140 }
+            length: { maximum: Settings.micropost.content.max_length }
 
   validates :image,
             content_type: {
-              in: %w[image/jpeg image/png image/gif],
-              message: "must be a JPEG, PNG, or GIF"
+              in: Settings.micropost.image.allowed_content_types,
+              message: :invalid_content_type
             },
             size: {
-              less_than: 5.megabytes,
-              message: "should be less than 5 MB"
+              less_than: Settings.micropost.image.max_size_mb.megabytes,
+              message: :too_large
             }
 end

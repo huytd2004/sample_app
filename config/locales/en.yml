@@ -29,6 +29,18 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        micropost:
+          attributes:
+            image:
+              invalid_content_type: "must be a JPEG, PNG, or GIF"
+              too_large: "should be less than 5 MB"
+        relationship:
+          attributes:
+            followed:
+              same_as_follower: "can't be the same as follower"
   app:
     title: "Ruby on Rails Tutorial Sample App"
     welcome: "Welcome to the Sample App!"

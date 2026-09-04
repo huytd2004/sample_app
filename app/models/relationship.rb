@@ -9,6 +9,6 @@ class Relationship < ApplicationRecord
   private
 
   def cannot_follow_self
-    errors.add(:followed, "can't be the same as follower") if follower_id == followed_id
+    errors.add(:followed, :same_as_follower) if follower_id == followed_id
   end
 end

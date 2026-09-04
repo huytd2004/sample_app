@@ -31,7 +31,7 @@ class UsersController < ApplicationController
       flash[:danger] = t("app.user.not_found")
       redirect_to root_path
     end
-    @microposts = @user.microposts.paginate(page: params[:page])
+    @microposts = @user.microposts.recent.paginate(page: params[:page])
   end
 
   def create

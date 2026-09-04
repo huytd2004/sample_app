@@ -73,3 +73,5 @@ gem "will_paginate"
 
 gem "active_storage_validations"
 gem "ruby-vips"
+
+gem "config"

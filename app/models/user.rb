@@ -22,20 +22,18 @@ class User < ApplicationRecord
   before_create :create_activation_digest
   before_save { self.email = email.downcase }
 
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-
   validates :name,
             presence: true,
-            length: { maximum: 50 }
+            length: { maximum: Settings.user.name.max_length }
 
   validates :email,
             presence: true,
-            length: { maximum: 255 },
-            format: { with: VALID_EMAIL_REGEX },
+            length: { maximum: Settings.user.email.max_length },
+            format: { with: Regexp.new(Settings.user.email.format) },
             uniqueness: { case_sensitive: false }
   validates :password,
             presence: true,
-            length: { minimum: 6 }
+            length: { minimum: Settings.user.password.min_length }
   has_secure_password
 
   def create_reset_digest
@@ -49,7 +47,8 @@ class User < ApplicationRecord
     UserMailer.password_reset(self).deliver_now
   end
   def password_reset_expired?
-    reset_sent_at.nil? || reset_sent_at < 2.hours.ago
+    reset_sent_at.nil? ||
+      reset_sent_at < Settings.user.password_reset.expiration_hours.hours.ago
   end
 
   def forget
@@ -93,6 +92,7 @@ class User < ApplicationRecord
       .where(user_id: followed_user_ids)
       .or(Micropost.where(user_id: id))
       .includes(:user, image_attachment: :blob)
+      .recent
   end
 
   def follow(other_user)
