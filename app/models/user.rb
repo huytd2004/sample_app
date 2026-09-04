@@ -1,24 +1,39 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships,
+         class_name: "Relationship",
+         foreign_key: "follower_id",
+         dependent: :destroy
+
+  has_many :passive_relationships,
+          class_name: "Relationship",
+          foreign_key: "followed_id",
+          dependent: :destroy
+
+  has_many :following,
+          through: :active_relationships,
+          source: :followed
+
+  has_many :followers,
+          through: :passive_relationships,
+          source: :follower
 
   before_create :create_activation_digest
   before_save { self.email = email.downcase }
 
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-
   validates :name,
             presence: true,
-            length: { maximum: 50 }
+            length: { maximum: Settings.user.name.max_length }
 
   validates :email,
             presence: true,
-            length: { maximum: 255 },
-            format: { with: VALID_EMAIL_REGEX },
+            length: { maximum: Settings.user.email.max_length },
+            format: { with: Regexp.new(Settings.user.email.format) },
             uniqueness: { case_sensitive: false }
   validates :password,
             presence: true,
-            length: { minimum: 6 }
+            length: { minimum: Settings.user.password.min_length }
   has_secure_password
 
   def create_reset_digest
@@ -32,7 +47,8 @@ class User < ApplicationRecord
     UserMailer.password_reset(self).deliver_now
   end
   def password_reset_expired?
-    reset_sent_at.nil? || reset_sent_at < 2.hours.ago
+    reset_sent_at.nil? ||
+      reset_sent_at < Settings.user.password_reset.expiration_hours.hours.ago
   end
 
   def forget
@@ -70,7 +86,25 @@ class User < ApplicationRecord
   end
 
   def feed
-    Micropost.where(user_id: id)
+    followed_user_ids = active_relationships.select(:followed_id)
+
+    Micropost
+      .where(user_id: followed_user_ids)
+      .or(Micropost.where(user_id: id))
+      .includes(:user, image_attachment: :blob)
+      .recent
+  end
+
+  def follow(other_user)
+    following << other_user
+  end
+
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  def following?(other_user)
+    following.include?(other_user)
   end
 
   private

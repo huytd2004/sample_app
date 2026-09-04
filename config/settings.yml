@@ -1,0 +1,22 @@
+user:
+  name:
+    max_length: 50
+  email:
+    max_length: 255
+    format: '(?i)\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z'
+  password:
+    min_length: 6
+  password_reset:
+    expiration_hours: 2
+
+micropost:
+  content:
+    max_length: 140
+  image:
+    width: 500
+    height: 500
+    allowed_content_types:
+      - image/jpeg
+      - image/png
+      - image/gif
+    max_size_mb: 5
