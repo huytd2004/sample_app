@@ -12,6 +12,7 @@
 
       <div class="mb-3">
         <%= f.label :password, class: "form-label" %>
+        <%= link_to "(forgot password)", new_password_reset_path %>
         <%= f.password_field :password, class: "form-control", autocomplete: "current-password" %>
       </div>
 

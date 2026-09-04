@@ -13,11 +13,11 @@ class SessionsController < ApplicationController
         log_in user
         redirect_to forwarding_url || user
       else
-        flash[:warning] = I18n.t("app.auth.warning")
+        flash[:warning] = I18n.t("app.auth.account_not_activated")
         redirect_to root_url
       end
     else
-      flash.now[:danger] = I18n.t("app.auth.danger")
+      flash.now[:danger] = I18n.t("app.auth.invalid_credentials")
       render :new, status: :unprocessable_entity
     end
   end

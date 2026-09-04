@@ -14,7 +14,7 @@ before_action :admin_user, only: :destroy
   def show
     @user = User.find_by(id: params[:id])
     unless @user
-      flash[:danger] = t("app.user.danger")
+      flash[:danger] = t("app.user.not_found")
       redirect_to root_path
     end
   end
@@ -24,7 +24,7 @@ before_action :admin_user, only: :destroy
 
     if @user.save
       @user.send_activation_email
-      flash[:info] = I18n.t("user_mailer.account_activation.deliver")
+      flash[:info] = I18n.t("user_mailer.account_activation.delivery_notice")
       redirect_to root_url
     else
       render :new, status: :unprocessable_entity
@@ -39,7 +39,7 @@ before_action :admin_user, only: :destroy
     @user = User.find(params[:id])
 
     if @user.update(user_params)
-      flash[:success] = t("app.success")
+      flash[:success] = t("app.user.profile_updated")
       redirect_to @user
     else
       render :edit, status: :unprocessable_entity
@@ -48,7 +48,7 @@ before_action :admin_user, only: :destroy
 
   def destroy
     User.find(params[:id]).destroy
-    flash[:success] = t("app.destroy.success")
+    flash[:success] = t("app.user.deleted")
     redirect_to users_url
   end
 
@@ -66,7 +66,7 @@ before_action :admin_user, only: :destroy
   def logged_in_user
     unless logged_in?
       store_location
-      flash[:danger] = t("app.login.danger")
+      flash[:danger] = t("app.user.login_required")
       redirect_to login_url
     end
   end

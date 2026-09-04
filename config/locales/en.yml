@@ -32,18 +32,27 @@ en:
   app:
     title: "Ruby on Rails Tutorial Sample App"
     welcome: "Welcome to the Sample App!"
-    auth: 
-      danger: "Invalid email/password combination"
-      warning: "Account not activated. Check your email for the activation link."
+    auth:
+      invalid_credentials: "Invalid email/password combination"
+      account_not_activated: "Account not activated. Check your email for the activation link."
+    account_activation:
+      success: "Account activated!"
+      invalid_link: "Invalid activation link"
     user:
-      danger: "User not found"
-    login:
-      danger: "Please log in."
-    success: "Profile updated"
-    destroy:
-      success: "User deleted"
-  
+      not_found: "User not found"
+      profile_updated: "Profile updated"
+      deleted: "User deleted"
+      login_required: "Please log in."
+    password_reset:
+      email_sent: "Email sent with password reset instructions"
+      email_not_found: "Email address not found"
+      expired: "Password reset has expired."
+      password_empty: "can't be empty"
+      success: "Password has been reset."
+
   user_mailer:
     account_activation:
       subject: "Account activation"
-      deliver: "Please check your email to activate your account."
+      delivery_notice: "Please check your email to activate your account."
+    password_reset:
+      subject: "Password reset"
