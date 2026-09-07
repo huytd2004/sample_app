@@ -1,0 +1,59 @@
+x-app: &app
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  env_file:
+    - .env
+  environment:
+    RAILS_ENV: development
+  init: true
+  volumes:
+    - .:/rails
+    - rails_storage:/rails/storage
+
+services:
+  db:
+    image: postgres:18
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./docker/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  setup:
+    <<: *app
+    command: bin/rails db:prepare
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    <<: *app
+    command: >-
+      bash -c "rm -f tmp/pids/server.pid &&
+      exec bin/rails server -b 0.0.0.0 -p 3000"
+    ports:
+      - "3000:3000"
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+
+  worker:
+    <<: *app
+    command: bin/jobs start
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+
+volumes:
+  postgres_data:
+  rails_storage:
