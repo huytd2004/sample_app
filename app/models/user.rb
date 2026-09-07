@@ -44,7 +44,7 @@ class User < ApplicationRecord
     )
   end
   def send_password_reset_email
-    UserMailer.password_reset(self).deliver_now
+    UserMailer.password_reset(self, reset_token).deliver_later
   end
   def password_reset_expired?
     reset_sent_at.nil? ||
@@ -67,7 +67,7 @@ class User < ApplicationRecord
     )
   end
   def send_activation_email
-    UserMailer.account_activation(self).deliver_now
+    UserMailer.account_activation(self, activation_token).deliver_later
   end
 
   def authenticated?(attribute, token)

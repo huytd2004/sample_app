@@ -75,3 +75,5 @@ gem "active_storage_validations"
 gem "ruby-vips"
 
 gem "config"
+
+gem "pg"

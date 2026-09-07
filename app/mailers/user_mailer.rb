@@ -1,6 +1,7 @@
 class UserMailer < ApplicationMailer
-  def account_activation(user)
+  def account_activation(user, token)
     @user = user
+    @token = token
 
     mail(
       to: user.email,
@@ -8,8 +9,10 @@ class UserMailer < ApplicationMailer
     )
   end
 
-  def password_reset(user)
+  def password_reset(user, token)
     @user = user
+    @token = token
+
     mail(
       to: user.email,
       subject: I18n.t("user_mailer.password_reset.subject")

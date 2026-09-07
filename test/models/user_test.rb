@@ -1,6 +1,10 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
+  include ActionMailer::TestHelper
+
+  self.fixture_table_names = []
+
   def setup
     @user = User.new(
       name: "Example User",
@@ -93,5 +97,24 @@ class UserTest < ActiveSupport::TestCase
   test "password should have a minimum length" do
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
+  end
+
+  test "password reset email should be enqueued" do
+    @user.save!
+    @user.create_reset_digest
+
+    assert_enqueued_email_with UserMailer, :password_reset,
+                               args: [ @user, @user.reset_token ] do
+      @user.send_password_reset_email
+    end
+  end
+
+  test "account activation email should be enqueued" do
+    @user.save!
+
+    assert_enqueued_email_with UserMailer, :account_activation,
+                               args: [ @user, @user.activation_token ] do
+      @user.send_activation_email
+    end
   end
 end
